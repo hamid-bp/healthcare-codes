@@ -2,7 +2,7 @@ package com.semdatex.catalogs.config;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-import com.semdatex.catalogs.security.*;
+import com.semdatex.catalogs.security.AuthoritiesConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -41,21 +41,22 @@ public class SecurityConfiguration {
             .authorizeHttpRequests(
                 authz ->
                     // prettier-ignore
-                authz
-                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/authenticate")).permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/authenticate")).permitAll()
-                    .requestMatchers(mvc.pattern("/api/register")).permitAll()
-                    .requestMatchers(mvc.pattern("/api/activate")).permitAll()
-                    .requestMatchers(mvc.pattern("/api/account/reset-password/init")).permitAll()
-                    .requestMatchers(mvc.pattern("/api/account/reset-password/finish")).permitAll()
-                    .requestMatchers(mvc.pattern("/api/admin/**")).hasAuthority(AuthoritiesConstants.ADMIN)
-                    .requestMatchers(mvc.pattern("/api/**")).authenticated()
-                    .requestMatchers(mvc.pattern("/v3/api-docs/**")).hasAuthority(AuthoritiesConstants.ADMIN)
-                    .requestMatchers(mvc.pattern("/management/health")).permitAll()
-                    .requestMatchers(mvc.pattern("/management/health/**")).permitAll()
-                    .requestMatchers(mvc.pattern("/management/info")).permitAll()
-                    .requestMatchers(mvc.pattern("/management/prometheus")).permitAll()
-                    .requestMatchers(mvc.pattern("/management/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+                    authz
+                        .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/authenticate")).permitAll()
+                        .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/authenticate")).permitAll()
+                        .requestMatchers(mvc.pattern("/api/register")).permitAll()
+                        .requestMatchers(mvc.pattern("/api/activate")).permitAll()
+                        .requestMatchers(mvc.pattern("/api/account/reset-password/init")).permitAll()
+                        .requestMatchers(mvc.pattern("/api/account/reset-password/finish")).permitAll()
+                        .requestMatchers(mvc.pattern("/api/admin/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+                        .requestMatchers(mvc.pattern("/api/ops-codes/**")).permitAll()
+                        .requestMatchers(mvc.pattern("/api/**")).authenticated()
+                        .requestMatchers(mvc.pattern("/v3/api-docs/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+                        .requestMatchers(mvc.pattern("/management/health")).permitAll()
+                        .requestMatchers(mvc.pattern("/management/health/**")).permitAll()
+                        .requestMatchers(mvc.pattern("/management/info")).permitAll()
+                        .requestMatchers(mvc.pattern("/management/prometheus")).permitAll()
+                        .requestMatchers(mvc.pattern("/management/**")).hasAuthority(AuthoritiesConstants.ADMIN)
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .exceptionHandling(
